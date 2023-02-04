@@ -1,0 +1,36 @@
+Sub Delete_Dublicates()
+
+Dim col As New Collection
+Dim text As String
+Dim arr() As String
+
+text = Selection.text 'Текст выделения
+
+If Len(text) <= 1 Then
+    MsgBox "Ошибка! Выделите текст"
+    Exit Sub
+End If
+
+text = Replace(text, vbCrLf, " ")
+text = Replace(text, vbLf, " ")
+text = Replace(text, vbCr, " ")
+arr = Split(text) 'Разделение текста на слова
+
+On Error Resume Next 'Если элемент уже в коллекции, то он не добавится
+   For Each Item In arr
+        col.Add Item, CStr(Item)
+    Next Item
+On Error GoTo 0
+
+'For Each i In col Debug.Print i Next
+text = ""
+
+For Each Item In col
+    text = text & Item & " "
+Next
+
+text = Left(text, Len(text) - 2)
+
+Selection.text = text
+
+End Sub
